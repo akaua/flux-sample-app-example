@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: flux-sample-app
-        image: 550945418071.dkr.ecr.eu-west-1.amazonaws.com/flux-sample-app:078e4ac416100987edf42b8062fa2ba2cd21968c
+        image: 550945418071.dkr.ecr.eu-west-1.amazonaws.com/flux-sample-app:latest
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
