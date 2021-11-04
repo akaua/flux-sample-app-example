@@ -1,6 +1,8 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: flux-sample-app
   name: podinfo
 spec:
   minReadySeconds: 3
