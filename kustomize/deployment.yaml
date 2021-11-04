@@ -23,7 +23,7 @@ spec:
       containers:
       - name: flux-sample-app
         image: 550945418071.dkr.ecr.eu-west-1.amazonaws.com/flux-sample-app:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 3000
