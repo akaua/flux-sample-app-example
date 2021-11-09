@@ -35,14 +35,18 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: flux-sample-app
           IMAGE_TAG: ${{ github.sha }}
-          GITHUB_BRANCH: ${{ github.ref }}
+          GITHUB_BRANCH: ${{ steps.vars.outputs.short_ref }}
         run: |
-          docker build -f docker/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_BRANCH_$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -t $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_BRANCH_latest .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_BRANCH_$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_BRANCH_latest
+          docker build -f docker/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_BRANCH-$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -t $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_BRANCH-latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_BRANCH-$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_BRANCH-latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
