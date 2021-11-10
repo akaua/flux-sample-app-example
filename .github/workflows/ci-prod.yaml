@@ -56,17 +56,30 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           GITHUB_BRANCH: ${{ steps.vars.outputs.short_ref }}
         run: |
+          mkdir checkout-flux-config
           sed -i 's/<TAG_IMAGE_VERSION>/'"$GITHUB_BRANCH"'-'"$IMAGE_TAG"'/g' flux-config/helm-release-flux-sample-app-template.yaml
+
+      - name: Checkout_flux_config
+        uses: actions/checkout@v2
+        with:
+          repository: akaua/flux-gitops-k8s
+          path: './checkout-flux-config'
+
+      - name: Move file to checkout path
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          GITHUB_BRANCH: ${{ steps.vars.outputs.short_ref }}
+        run: |
+          cp flux-config/helm-release-flux-sample-app-template.yaml checkout-flux-config/clusters
 
       - name: Push directory to another repository
         uses: cpina/github-action-push-to-another-repository@v1.2
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: 'flux-config'
+          source-directory: 'checkout-flux-config'
           destination-github-username: 'akaua'
           destination-repository-name: 'flux-gitops-k8s'
           target-branch: 'main'
-          target-directory: './clusters/'
           user-email: ${{ secrets.USER_EMAIL }}
           commit-message: "[ci skip] deploy from ${{ steps.vars.outputs.short_ref }}"
