@@ -74,7 +74,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           GITHUB_BRANCH: ${{ steps.vars.outputs.short_ref }}
         run: |
-          cp flux-config/helm-release-flux-sample-app-template.yaml checkout-flux-config/clusters
+          cp flux-config/helm-release-flux-sample-app-template.yaml checkout-flux-config/clusters/demo-cluster/helm-release-flux-sample-app.yaml
 
       - name: Push directory to another repository
         uses: cpina/github-action-push-to-another-repository@v1.2
