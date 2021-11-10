@@ -61,10 +61,13 @@ jobs:
 
       - name: Checkout_flux_config
         uses: actions/checkout@v2
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
           repository: akaua/flux-gitops-k8s
           path: './checkout-flux-config'
           ref: 'main'
+          token: $API_TOKEN_GITHUB
 
       - name: Move file to checkout path
         env:
