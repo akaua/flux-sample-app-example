@@ -56,7 +56,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           GITHUB_BRANCH: ${{ steps.vars.outputs.short_ref }}
         run: |
-          sed -i '' 's/<TAG_IMAGE_VERSION>/'"$GITHUB_BRANCH"'-'"$IMAGE_TAG"'/g' flux-config/helm-release-flux-sample-app-template.yaml
+          sed -i 's/<TAG_IMAGE_VERSION>/'"$GITHUB_BRANCH"'-'"$IMAGE_TAG"'/g' flux-config/helm-release-flux-sample-app-template.yaml
 
       - name: Push directory to another repository
         uses: cpina/github-action-push-to-another-repository@v1.2
