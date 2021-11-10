@@ -64,6 +64,7 @@ jobs:
         with:
           repository: akaua/flux-gitops-k8s
           path: './checkout-flux-config'
+          ref: 'main'
 
       - name: Move file to checkout path
         env:
