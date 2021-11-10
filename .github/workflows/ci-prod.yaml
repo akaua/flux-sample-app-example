@@ -50,3 +50,23 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_BRANCH-$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_BRANCH-latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      - name: Change template
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          GITHUB_BRANCH: ${{ steps.vars.outputs.short_ref }}
+        run: |
+          sed -i '' 's/<TAG_IMAGE_VERSION>/'"$GITHUB_BRANCH"'-'"$IMAGE_TAG"'/g' flux-config/helm-release-flux-sample-app-template.yaml
+
+      - name: Push directory to another repository
+        uses: cpina/github-action-push-to-another-repository@v1.2
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'flux-config'
+          destination-github-username: 'akaua'
+          destination-repository-name: 'flux-gitops-k8s'
+          target-branch: 'main'
+          target-directory: './clusters/'
+          user-email: ${{ secrets.USER_EMAIL }}
+          commit-message: "[ci skip] deploy from ${{ steps.vars.outputs.short_ref }}"
