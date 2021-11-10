@@ -67,7 +67,7 @@ jobs:
           repository: akaua/flux-gitops-k8s
           path: './checkout-flux-config'
           ref: 'main'
-          token: $API_TOKEN_GITHUB
+          token: '$API_TOKEN_GITHUB'
 
       - name: Move file to checkout path
         env:
