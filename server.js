@@ -3,7 +3,7 @@ var app = express();
 
 app.get('/', function (req, res) {
 
-    res.send('Hello World! test 7!');
+    res.send('Hello World! Flux Sample app Github Actions CD Flow - test 8!');
 
 });
 
